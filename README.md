@@ -8,4 +8,4 @@
 pip install discord.py python-dotenv
 ```
 
-By [鯊魚](https://github.com/Larryeng)
+Made By [鯊魚](https://github.com/Larryeng)
