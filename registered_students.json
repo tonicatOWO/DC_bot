@@ -1,0 +1,11 @@
+{
+    "students": [
+        {
+            "id": "學號", // 學號需預先填寫
+            "class": "班級", // 班級需預先填寫
+            "name": "姓名", // 姓名需預先填寫
+            "discord_id": "0", // Discord ID註冊後會自動填寫這裡預設為0
+            "registered": false // 是否已經註冊
+        }
+    ]
+}
