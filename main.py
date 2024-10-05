@@ -23,7 +23,7 @@ async def on_ready():
 user_data_path = "registered_students.json"
 def load_users_data(file_path):
 	if os.path.exists(file_path):
-		with open(file_path, 'r') as file:
+		with open(file_path, 'r', encoding="UTF-8") as file:
 			return json.load(file)
 	return {"students": []}  
 #=======================================================
@@ -43,7 +43,7 @@ async def list_registered(interaction: discord.Interaction):
     else:
         for student in users_data["students"]:
             registered_status = "已註冊" if student.get("registered") else "未註冊"
-            discord_mention = f"{student['discord_id']}" if "discord_id" in student else "無法找到 Discord ID"
+            discord_mention = student.get("discord_id","無法找到 Discord ID")
             registered_message += f"學號: {student['id']} | 班級: {student['class']} | 姓名: {student['name']} | 狀態: {registered_status} | 註冊DC帳號: {discord_mention}\n"
     await interaction.response.send_message(registered_message, ephemeral=True)
 
