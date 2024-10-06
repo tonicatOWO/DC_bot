@@ -6,12 +6,12 @@ from discord.ui import Modal, TextInput, View, Button
 data_path = "registered_students.json"  # 填寫路徑
 def load_data(file_path):
 	if os.path.exists(file_path):
-		with open(file_path, 'r', encoding="UTF-8") as file:
+		with open(file_path, 'r', encoding="UTF-8") as file: # 讀取json檔案
 			return json.load(file)
 	return {"students": []}  
 
 def save_data(file_path, data):
-	with open(file_path, 'w', encoding="UTF-8") as file:
+	with open(file_path, 'w', encoding="UTF-8") as file: # 寫入json檔案
 		json.dump(data, file, indent=4)
 #=======================================================
 class signup(Modal):
