@@ -1,7 +1,7 @@
 import os
 import json
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
 from signup import send_signup_button
 from leave import send_leave_button
@@ -10,7 +10,7 @@ discord.Intents.default().members = True
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.default())
 
 #=======================================================
-@bot.event
+@tasks.loop(time=1)
 async def on_ready():
     print(f'Bot 已上線 {bot.user}')
     channel_1 = bot.get_channel(自行更改第一個頻道ID) #簽到區
