@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"] 
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum LeaveType {
+  SICK
+  VACATION
+  PERSONAL
+  OTHER
+}
+
+model LeaveApplicationForm {
+  id              Int       @id @default(autoincrement())
+  name            String
+  telephoneNumber String?
+  discordId       String
+  leaveType       LeaveType
+  startDate       DateTime
+  endDate         DateTime
+  status          String    @default("pending")
+  submittedAt     DateTime  @default(now())
+ 
+  @@unique([id, startDate])
+}
+
+model Member {
+  id        Int     @id @default(autoincrement())
+  name      String
+  class     String
+  email     String?  @unique
+  discordId String? @unique
+
+  @@index([id])
+}
+
+model ClubAccount {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @default(now())
+  item      String
+  amount    Float
+  isIncome  Boolean
+  category  String
+  member    String?
+  event     String?
+  receipt   String?
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([date])
+  @@index([category])
+}

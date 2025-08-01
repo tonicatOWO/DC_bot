@@ -4,7 +4,11 @@
 *.env.local
 package-lock.json
 yarn.lock
-
+*.db
 # folders
 build
 node_modules
+<<<<<<< HEAD
+=======
+/src/generated/prisma
+>>>>>>> tonicat-dev
