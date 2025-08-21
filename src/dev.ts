@@ -1,18 +1,17 @@
-import { dirname, resolve } from "@discordx/importer";
-import chokidar from "chokidar";
-import { DIService, MetadataStorage } from "discordx";
+import { dirname, resolve } from '@discordx/importer';
+import chokidar from 'chokidar';
+import { DIService, MetadataStorage } from 'discordx';
 
-import { bot } from "./bot.js";
+import { bot } from './bot.js';
 
-import { config } from "dotenv";
-config();
+import { config } from 'dotenv';
 
 // The following syntax should be used in the commonjs environment
 // const importPattern =  __dirname + "/{events,commands}/**/*.{ts,js}"
 
 // The following syntax should be used in the ECMAScript environment
 const importPattern = `${dirname(
-  import.meta.url,
+  import.meta.url
 )}/{events,commands}/**/*.{ts,js}`;
 
 /**
@@ -25,7 +24,7 @@ const importPattern = `${dirname(
 export async function LoadFiles(src: string): Promise<void> {
   const files = await resolve(src);
   await Promise.all(
-    files.map((file) => import(`${file}?version=${Date.now().toString()}`)),
+    files.map((file) => import(`${file}?version=${Date.now().toString()}`))
   );
 }
 
@@ -33,7 +32,7 @@ export async function LoadFiles(src: string): Promise<void> {
  * Reload commands for discordx
  */
 async function Reload() {
-  console.log("> Reloading modules\n");
+  console.log('> Reloading modules\n');
 
   // Remove events
   bot.removeEvents();
@@ -50,7 +49,7 @@ async function Reload() {
   await bot.initApplicationCommands();
   bot.initEvents();
 
-  console.log("> Reload success\n");
+  console.log('> Reload success\n');
 }
 
 /**
@@ -62,24 +61,29 @@ async function run() {
   // Load commands
   await LoadFiles(importPattern);
 
+  if (process.env.NODE_ENV !== 'production') {
+    // Load environment variables from .env file
+    config();
+  }
+
   // Let's start the bot
   if (!process.env.BOT_TOKEN) {
-    throw Error("Could not find BOT_TOKEN in your environment");
+    throw Error('Could not find BOT_TOKEN in your environment');
   }
 
   // Log in with your bot token
   await bot.login(process.env.BOT_TOKEN);
 
   // Hot Module reload
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     console.log(
-      "> Hot-Module-Reload enabled in development. Commands will automatically reload.",
+      '> Hot-Module-Reload enabled in development. Commands will automatically reload.'
     );
 
     // Watch changed files using chikidar
-    watcher.on("add", () => void Reload());
-    watcher.on("change", () => void Reload());
-    watcher.on("unlink", () => void Reload());
+    watcher.on('add', () => void Reload());
+    watcher.on('change', () => void Reload());
+    watcher.on('unlink', () => void Reload());
   }
 }
 

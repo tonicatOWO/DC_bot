@@ -3,11 +3,10 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["driverAdapters"] 
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -19,7 +18,7 @@ enum LeaveType {
 }
 
 model LeaveApplicationForm {
-  id              Int       @id @default(autoincrement())
+  schoolID        String    @id @map("_id")
   name            String
   telephoneNumber String?
   discordId       String
@@ -28,33 +27,14 @@ model LeaveApplicationForm {
   endDate         DateTime
   status          String    @default("pending")
   submittedAt     DateTime  @default(now())
- 
-  @@unique([id, startDate])
+
+  @@unique([discordId, startDate])
 }
 
 model Member {
-  id        Int     @id @default(autoincrement())
+  schoolID  String  @id @map("_id")
   name      String
   class     String
-  email     String?  @unique
+  email     String? @unique
   discordId String? @unique
-
-  @@index([id])
-}
-
-model ClubAccount {
-  id        Int      @id @default(autoincrement())
-  date      DateTime @default(now())
-  item      String
-  amount    Float
-  isIncome  Boolean
-  category  String
-  member    String?
-  event     String?
-  receipt   String?
-  note      String?
-  createdAt DateTime @default(now())
-
-  @@index([date])
-  @@index([category])
 }

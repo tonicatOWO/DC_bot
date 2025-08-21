@@ -4,6 +4,7 @@ import {
   ChatInputCommandInteraction,
 } from 'discord.js';
 import { Discord, Slash, SlashOption } from 'discordx';
+import { csvWriter } from '../lib/services/csvService';
 
 @Discord()
 export class SlashCommands {
@@ -32,5 +33,7 @@ export class SlashCommands {
     })
     file: Attachment,
     interaction: ChatInputCommandInteraction
-  ): Promise<void> {}
+  ): Promise<void> {
+    const data = csvWriter(file.url);
+  }
 }
