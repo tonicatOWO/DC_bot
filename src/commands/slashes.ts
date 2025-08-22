@@ -23,17 +23,17 @@ export class SlashCommands {
     await interaction.reply('Leave request received!');
   }
 
-  @Slash({ name: 'add-member-data', description: 'upload csv file' })
-  async addMemberData(
-    @SlashOption({
-      name: 'file',
-      description: 'add member data file',
-      required: true,
-      type: ApplicationCommandOptionType.Attachment,
-    })
-    file: Attachment,
-    interaction: ChatInputCommandInteraction
-  ): Promise<void> {
-    const data = csvWriter(file.url);
-  }
+  // @Slash({ name: 'add-member-data', description: 'upload csv file' })
+  // async addMemberData(
+  //   @SlashOption({
+  //     name: 'file',
+  //     description: 'add member data file',
+  //     required: true,
+  //     type: ApplicationCommandOptionType.Attachment,
+  //   })
+  //   file: Attachment,
+  //   interaction: ChatInputCommandInteraction
+  // ): Promise<void> {
+  //   const result = await csvWriter(file);
+  // }
 }

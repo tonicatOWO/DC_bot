@@ -1,36 +1,46 @@
 import { parse } from 'csv-parse';
 import { prisma } from '../database/prisma';
+import { csvType } from '../../types/csvType';
 
-export const csvWriter = (fileContent: string) => {
-  parse(
-    fileContent,
-    {
-      delimiter: ',',
-      columns: true,
-      skip_empty_lines: true,
-    },
-    (error, result: any[]) => {
-      if (error) {
-        console.error(error);
-        return;
+export const csvWriter = async (fileContent: string): Promise<void> => {
+  try {
+    const records = await new Promise<csvType[]>((resolve, reject) => {
+      parse(
+        fileContent,
+        {
+          delimiter: ',',
+          columns: true,
+          skip_empty_lines: true,
+        },
+        (error, result: csvType[]) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+
+    // Process records with better error handling
+    for (const row of records) {
+      try {
+        await prisma.member.create({
+          data: {
+            name: row.name,
+            email: row.email,
+            class: row.class,
+            schoolID: row.schoolID,
+            discordID: row.discordID,
+          },
+        });
+        console.log(`Member ${row.name} added successfully.`);
+      } catch (err) {
+        console.error(`Error adding member ${row.name}:`, err);
       }
-      result.forEach((row) => {
-        prisma.member
-          .create({
-            data: {
-              name: row.name,
-              email: row.email,
-              discordId: row.discordId,
-              schoolID: row.schoolID,
-            },
-          })
-          .then(() => {
-            console.log(`Member ${row.name} added successfully.`);
-          })
-          .catch((err) => {
-            console.error(`Error adding member ${row.name}:`, err);
-          });
-      });
     }
-  );
+  } catch (error) {
+    console.error('CSV parsing error:', error);
+    throw error;
+  }
 };
