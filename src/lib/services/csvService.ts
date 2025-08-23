@@ -30,8 +30,8 @@ export const csvWriter = async (fileContent: string): Promise<void> => {
             name: row.name,
             email: row.email,
             class: row.class,
-            schoolID: row.schoolID,
-            discordID: row.discordID,
+            schoolId: row.schoolId,
+            discordId: row.discordId || null,
           },
         });
         console.log(`Member ${row.name} added successfully.`);

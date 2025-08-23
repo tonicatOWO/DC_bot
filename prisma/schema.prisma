@@ -18,7 +18,7 @@ enum LeaveType {
 }
 
 model LeaveApplicationForm {
-  schoolID        String    @id @map("_id")
+  schoolId        String    @id @map("_id")
   name            String
   telephoneNumber String?
   discordId       String
@@ -29,12 +29,15 @@ model LeaveApplicationForm {
   submittedAt     DateTime  @default(now())
 
   @@unique([discordId, startDate])
+  @@map("LeaveApplicationForm")
 }
 
 model Member {
-  schoolID  String  @id @map("_id")
+  schoolId  String  @id @map("_id")
+  discordId String?
   name      String
   class     String
-  email     String? @unique
-  discordId String? @unique
+  email     String?
+
+  @@map("Member")
 }

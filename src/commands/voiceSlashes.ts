@@ -36,7 +36,7 @@ export class VoiceCommands {
         guildId: guild.id,
         adapterCreator: guild.voiceAdapterCreator,
         selfDeaf: false,
-        selfMute: true,
+        selfMute: false,
       });
 
       this.connections.set(guild.id, connection);
@@ -55,6 +55,7 @@ export class VoiceCommands {
     name: 'leave',
     description: 'Leave voice channel',
   })
+  @Guard(voiceChannelGuard)
   async leaveVoice(interaction: CommandInteraction): Promise<void> {
     const guild = interaction.guild!;
     const connection = this.connections.get(guild.id);

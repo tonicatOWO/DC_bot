@@ -14,7 +14,7 @@ export const adminGuard: GuardFunction<CommandInteraction> = async (
 
   if (!member?.permissions.has(PermissionFlagsBits.Administrator)) {
     return interaction.reply({
-      content: '❌ 你需要管理員權限才能使用此指令',
+      content: 'You need administrator permissions to use this command',
       ephemeral: true,
     });
   }
@@ -30,7 +30,7 @@ export function hasRoleGuard(
 
     if (!member) {
       return interaction.reply({
-        content: '❌ 無法取得成員資訊',
+        content: 'Unable to retrieve member information',
         ephemeral: true,
       });
     }
@@ -41,7 +41,7 @@ export function hasRoleGuard(
 
     if (!hasRole) {
       return interaction.reply({
-        content: `❌ 你需要以下其中一個身分組: ${roleNames.join(', ')}`,
+        content: `You need one of the following roles: ${roleNames.join(', ')}`,
         ephemeral: true,
       });
     }
