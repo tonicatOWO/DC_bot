@@ -1,18 +1,27 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2022",
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "outDir": "build",
     "rootDir": "src",
     "strict": true,
-    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
 
     "experimentalDecorators": true,
     "emitDecoratorMetadata": false,
 
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@lib/*": ["lib/*"],
+      "@services/*": ["lib/services/*"],
+      "@types/*": ["types/*"]
+    }
   },
   "exclude": ["build", "node_modules"]
 }
