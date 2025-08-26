@@ -34,9 +34,10 @@ export function hasRoleGuard(
         ephemeral: true,
       });
     }
-
     const hasRole = roleNames.some((roleName) =>
-      member.roles.cache.some((role) => role.name === roleName)
+      member.roles.cache.some(
+        (role) => role.name === roleName || role.id === roleName
+      )
     );
 
     if (!hasRole) {

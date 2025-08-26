@@ -76,7 +76,7 @@ export const validateCsv = (
 
   const seen = new Set<string>();
   validRows.forEach((row, index) => {
-    const key = `${row.name}-${row.email}-${row.schoolId}`;
+    const key = `${row.name}-${row.email}-${row.schoolID}`;
     if (seen.has(key)) {
       errors.push({
         type: 'duplicate',

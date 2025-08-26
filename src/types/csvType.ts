@@ -11,18 +11,18 @@ export class CSVValidationError extends Error {
   errors: ValidationError[];
 
   constructor(errors: ValidationError[]) {
-    super('CSV validation failed');
+    super(`CSV validation failed with ${errors.length} error(s)`);
     this.name = 'CSVValidationError';
     this.errors = errors;
   }
 }
 
 export const csvSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email format'),
-  class: z.string().min(1, 'Class is required'),
-  schoolId: z.string().min(1, 'Student ID is required'),
-  discordId: z
+  name: z.string().min(1, 'Name is required').trim(),
+  email: z.string().email('Invalid email format').toLowerCase(),
+  class: z.string().min(1, 'Class is required').trim(),
+  schoolID: z.string().min(1, 'Student ID is required').trim(),
+  discordID: z
     .string()
     .optional()
     .refine((val) => !val || /^\d{17,19}$/.test(val), {

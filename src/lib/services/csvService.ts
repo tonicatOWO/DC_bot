@@ -24,19 +24,19 @@ export const importMembersFromCSV = async (
     try {
       // Check if member already exists (FerretDB supports findUnique)
       const existingMember = await prisma.member.findUnique({
-        where: { schoolId: row.schoolId },
+        where: { schoolID: row.schoolID },
       });
 
       if (existingMember) {
         // Update existing member (FerretDB supports update)
         try {
           await prisma.member.update({
-            where: { schoolId: row.schoolId },
+            where: { schoolID: row.schoolID },
             data: {
               name: row.name,
               class: row.class,
               email: row.email,
-              discordId: row.discordId || null,
+              discordID: row.discordID || null,
             },
           });
           successfulImports.push(row);
@@ -51,7 +51,7 @@ export const importMembersFromCSV = async (
             await new Promise((resolve) => setTimeout(resolve, 200));
 
             const updatedMember = await prisma.member.findUnique({
-              where: { schoolId: row.schoolId },
+              where: { schoolID: row.schoolID },
             });
 
             if (updatedMember && updatedMember.name === row.name) {
@@ -71,11 +71,11 @@ export const importMembersFromCSV = async (
         try {
           await prisma.member.create({
             data: {
-              schoolId: row.schoolId,
+              schoolID: row.schoolID,
               name: row.name,
               class: row.class,
               email: row.email,
-              discordId: row.discordId || null,
+              discordID: row.discordID || null,
             },
           });
           successfulImports.push(row);
@@ -90,7 +90,7 @@ export const importMembersFromCSV = async (
             await new Promise((resolve) => setTimeout(resolve, 200));
 
             const createdMember = await prisma.member.findUnique({
-              where: { schoolId: row.schoolId },
+              where: { schoolID: row.schoolID },
             });
 
             if (createdMember) {
@@ -108,12 +108,12 @@ export const importMembersFromCSV = async (
             );
             try {
               await prisma.member.update({
-                where: { schoolId: row.schoolId },
+                where: { schoolID: row.schoolID },
                 data: {
                   name: row.name,
                   class: row.class,
                   email: row.email,
-                  discordId: row.discordId || null,
+                  discordID: row.discordID || null,
                 },
               });
               successfulImports.push(row);
@@ -157,7 +157,7 @@ export const importMembersFromCSV = async (
     console.log(`[WARNING] ${failedImports.length} records failed to import:`);
     failedImports.forEach((f) => {
       console.log(
-        `  - ${f.data.name} (${f.data.schoolId}): ${f.error.message || 'Unknown error'}`
+        `  - ${f.data.name} (${f.data.schoolID}): ${f.error.message || 'Unknown error'}`
       );
     });
   }

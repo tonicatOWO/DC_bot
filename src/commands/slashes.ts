@@ -4,9 +4,10 @@ import {
   ChatInputCommandInteraction,
   MessageFlags,
 } from 'discord.js';
-import { Discord, Slash, SlashOption } from 'discordx';
+import { Discord, Guard, Slash, SlashOption } from 'discordx';
 import { validateCsv } from '@services/csvValidator';
 import { importMembersFromCSV } from '@services/csvService';
+import { adminGuard, hasRoleGuard } from '@/guards';
 
 @Discord()
 export class SlashCommands {
@@ -16,19 +17,14 @@ export class SlashCommands {
   }
 
   @Slash({
-    name: 'request-leave-btn-gen',
-    description: 'Generate leave request button',
-  })
-  async requestLeaveBtnGen(
-    interaction: ChatInputCommandInteraction
-  ): Promise<void> {
-    await interaction.reply('Leave request received!');
-  }
-
-  @Slash({
     name: 'add-member-data',
     description: 'Upload CSV file to add member data',
   })
+  @Guard(
+    ...(process.env.ADMIN_ROLE_ID
+      ? [hasRoleGuard(process.env.ADMIN_ROLE_ID)]
+      : [adminGuard])
+  )
   async addMemberData(
     @SlashOption({
       name: 'file',
@@ -39,9 +35,7 @@ export class SlashCommands {
     file: Attachment,
     interaction: ChatInputCommandInteraction
   ): Promise<void> {
-    await interaction.deferReply({
-      flags: MessageFlags.Ephemeral,
-    });
+    await interaction.deferReply();
 
     try {
       const response = await fetch(file.url);
