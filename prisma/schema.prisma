@@ -10,24 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum LeaveType {
-  SICK
-  VACATION
-  PERSONAL
-  OTHER
-}
-
 model LeaveApplicationForm {
-  schoolID        String    @id @map("_id")
-  name            String
-  telephoneNumber String?
-  discordID       String    @map("discordId")
-  leaveType       LeaveType
-  startDate       DateTime
-  endDate         DateTime
-  status          String    @default("pending")
-  submittedAt     DateTime  @default(now())
-
+  schoolID    String   @id @map("_id")
+  name        String
+  discordID   String?  @map("discordId")
+  leaveReason String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
   @@unique([discordID, startDate])
   @@map("LeaveApplicationForm")
 }

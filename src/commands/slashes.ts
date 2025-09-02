@@ -2,7 +2,6 @@ import {
   ApplicationCommandOptionType,
   Attachment,
   ChatInputCommandInteraction,
-  MessageFlags,
 } from 'discord.js';
 import { Discord, Guard, Slash, SlashOption } from 'discordx';
 import { validateCsv } from '@services/csvValidator';
